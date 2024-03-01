@@ -83,7 +83,74 @@ Esperar
 sleep 10 (aguarda 10 segundos)
 =================================================================================================================
 
+=================================================================================================================
+Comando: cat
+Retorna conteúdo
+-----------------------------------------------------------------------------------------------------------------
+cat alunos3.txt
+cat -b alunos.txt (numera linhas que nao estao em branco)
+cat -n alunos.txt (numera todas as linhas)
+cat -A alunos.txt (exibe caracteres especiais, tabulacoes, espacos)
+=================================================================================================================
 
+=================================================================================================================
+Comando: tac
+Retorna conteúdo igual o cat mas invertido de baixo pra cima
+-----------------------------------------------------------------------------------------------------------------
+=================================================================================================================
 
+=================================================================================================================
+Comando: tail
+mostras as ultimas x linhas do arquivo
+-----------------------------------------------------------------------------------------------------------------
+tail -n3 arquivolongo.txt
+tail -n50 arquivolongo.txt
+=================================================================================================================
+
+=================================================================================================================
+Comando: head
+mostras as primeiras x linhas do arquivo
+-----------------------------------------------------------------------------------------------------------------
+head -n3 arquivolongo.txt
+head -n50 arquivolongo.txt
+head -c50 arquivolongo.txt (c mostra os primeiros X caracteres)
+=================================================================================================================
+
+=================================================================================================================
+Comando: wc
+conta palavras, caracteres e bytes de um arquivo
+-----------------------------------------------------------------------------------------------------------------
+wc alunos.txt 
+retorna 10 10 70 alunos.txt -> significa 10 linhas 10 palavras 70 caracteres
+wc -l alunos.txt (retorna só o numero de linhas)
+wc -w alunos.txt (retorna só o numero de palavras)
+wc -m alunos.txt (retorna só o numero de caracteres)
+wc -c alunos.txt (retorna só o numero de bytes)
+=================================================================================================================
+
+=================================================================================================================
+Comando:  sort
+Ordena arquivo
+-----------------------------------------------------------------------------------------------------------------
+sort alunos.txt
+sort -r alunos.txt (reverso)
+sort -k2 alunos.txt (ordena como string usando o segundo campo da linha)
+sort -k2 -t":" alunos.txt (ordena como string usando o segundo campo da linha e identifica o que separa os campos, ex.: ":")
+sort -k2 alunos.txt (ordena como string usando o segundo campo da linha)
+sort -k2 -t":" -g alunos.txt (ordena como numero usando o segundo campo da linha e identifica o que separa os campos, ex.: ":")
+=================================================================================================================
+
+=================================================================================================================
+Comando:  uniq
+Trata valores repetidos
+-----------------------------------------------------------------------------------------------------------------
+sort alunos.txt |uniq (não exibe os repetidos. tem que ordenar pq só considera iguais que estiverem na sequencia)
+sort alunos.txt |uniq -u (mostra só o que apareceu 1x)
+sort alunos.txt |uniq -d (mostra só o que apareceu mais de 1x)
+sort alunos.txt |uniq -c (conta as repeticoes)
+sort alunos3.txt |uniq -c |sort (ordenou, contou os duplicados, ordenou de acordo com o numero de aparicoes)
+sort alunos3.txt |uniq -c |sort -r (igual acima mas reverso)
+sort alunos3.txt |uniq -c |sort -r |head -n1 (igual acima mas retornou o head 1, o primeiro registro)
+=================================================================================================================
 
 
