@@ -153,4 +153,189 @@ sort alunos3.txt |uniq -c |sort -r (igual acima mas reverso)
 sort alunos3.txt |uniq -c |sort -r |head -n1 (igual acima mas retornou o head 1, o primeiro registro)
 =================================================================================================================
 
+=================================================================================================================
+Comando:  tr
+substitui ou deleta caracteres 
+-----------------------------------------------------------------------------------------------------------------
+cat alunos3.txt |tr a e (no arquivo alunos3 irá substituir todo 'a' por 'e')
+cat alunos3.txt |tr a-z A-Z (substituiu de a até z minúsculo por A até Z maiúsculo)
+cat alunos3.txt |tr -d aeiou (deletou as letras a e i o u)
+echo "Curso Shell Script" |tr l L (trocou l por L)
+echo "Curso Shell Script" |tr -s l (comprime letra duplicada shell -> shel)
+cat alunos3.txt |tr [:lower:] [:upper:] (substituiu minúsculo por maiúsculo)
+=================================================================================================================
 
+=================================================================================================================
+Comando:  cut
+Corta pedacos de uma string
+-----------------------------------------------------------------------------------------------------------------
+cat alunos3.txt | cut -c1-5 (mostra só os caracteres de 1 a 5)
+cat alunos3.txt | cut -c5- (mostra só os caracteres de 5 pra frente)
+cat alunos3.txt | cut -d" " -f1 (mostra só o campo 1, -d define o delimitador)
+tail /etc/passwd | cut -d":" -f1
+=================================================================================================================
+
+=================================================================================================================
+Comando:  diff
+Comparar dois arquivos
+-----------------------------------------------------------------------------------------------------------------
+diff alunos2.txt alunos3.txt
+diff -w alunos2.txt alunos3.txt (diff ignorando espacos em branco)
+diff -r direrio1 diretorio2 (compara todos os arquivos dentro de diretorios)
+=================================================================================================================
+
+=================================================================================================================
+Comando:  grep
+Procurar conteúdo em um texto
+-----------------------------------------------------------------------------------------------------------------
+grep Maria alunos3.txt
+grep "Maria Silva" alunos3.txt
+grep -i MARIA alunos3.txt (case insensitive)
+grep -c Ana alunos3.txt (retorna quantas vezes apareceu)
+grep -v Ana alunos3.txt (retorna linhas que não aparecem essa palavra, exclui de exibir essa linha)
+grep -r MARIA * (procura em todos os arquivos desse diretorio)
+grep -l MARIA * (mostra em quais arquivos a palavra foi encontrada)
+grep -B3 Maria alunos3.txt (mostra a linha encontrada e mais 3 linhas antes)
+grep -A3 Maria alunos3.txt (mostra a linha encontrada e mais 3 linhas depois)
+=================================================================================================================
+
+=================================================================================================================
+Comando:  sed
+Filtra e transforma o conteudo. Mais completo que o tr, aceita expressao regular e mais...
+-----------------------------------------------------------------------------------------------------------------
+sed '1,3 d' alunos3.txt (deletar da linha 1 a 3)
+sed '/Maria/d' alunos3.txt (deletar a linha quando encontrar a palavra)
+sed 's/Maria/Joana' alunos3.txt (substitui a palavra encontrada mas apenas na 1a ocorrência-> ex.: Maria por Joana)
+sed 'g/Maria/Joana' alunos3.txt (substitui a palavra encontrada mas em todas as ocorrencias-> ex.: Maria por Joana)
+=================================================================================================================
+
+=================================================================================================================
+Comando:  more
+Pagina saidas longas
+-----------------------------------------------------------------------------------------------------------------
+more arquivolongo.txt
+=================================================================================================================
+
+=================================================================================================================
+Comando:  less
+Pagina saidas longas mas tem mais opcoes, como busca
+enter desce 1 linha
+espaco desce 1 Pagina
+da pra usar direcionais, seta cima seta baixo
+pesquisar: /texto-que-quero-buscar
+n vai pra proxima ocorrencia
+N volta ocorrencia
+pesquisar de baixo para cima: ?texto-que-quero-buscar
+para sair: q
+-----------------------------------------------------------------------------------------------------------------
+less arquivolongo.txt
+=================================================================================================================
+
+=================================================================================================================
+Comando:  find
+Procurar arquivos e diretorios
+-----------------------------------------------------------------------------------------------------------------
+find ./ -name  aluno.txt
+find ./ -name  aluno*
+find ./ -name  *copia*
+find ./ -name alunos* -exec ls -l {} \; procurar e executar ls para cada saida do resultado
+=================================================================================================================
+
+=================================================================================================================
+Comando:  date
+Exibe a data e hora
+-----------------------------------------------------------------------------------------------------------------
+date --help
+date +%H:%M:%S
+=================================================================================================================
+
+=================================================================================================================
+Comando:  seq
+Gera um sequencia de numeros
+-----------------------------------------------------------------------------------------------------------------
+seq 10
+seq 10 20  vai de 10 a 20
+seq 5 2 30 vai de 5 a 30 de 2 em 2
+=================================================================================================================
+
+=================================================================================================================
+Comando:  expr
+Fazer calculos
+-----------------------------------------------------------------------------------------------------------------
+expr --help
+expr 1 + 2    = 3
+expr 10 / 2   = 5
+expr  9 / 3   = 3    (nao gera casa decimal!)
+expr 10 \* 3  = 30   (precisa fazer o escape do *)
+=================================================================================================================
+
+=================================================================================================================
+Comando:  | bc
+Fazer calculos
+-----------------------------------------------------------------------------------------------------------------
+echo 3 + 2 | bc
+echo "(3+2)*5" |bc
+=================================================================================================================
+
+
+=================================================================================================================
+EXECUTAR COMANDOS EM SEQUENCIA
+
+echo "abc" ; ls -l ; echo "teste"    executa cada um individualmente, independente se der erro em algum
+echo "abc" && ls -l && echo "teste"  executa o próximo apenas se anterior não der erro
+echo "abc" && ls -l || echo "teste"  || executa o próximo apenas se anterior DER erro
+
+parentesis ( )
+executa o comando como se fosse um shell a parte e devolve o resultado. Como se fosse uma thread
+sem alterar o shell atual.
+Ex.:  (cd .. ; ls -l)
+vai ir no diretorio acima, fazer o list, e retornar o resultado. MAS sem sair do diretorio devido ao cd ..
+
+=================================================================================================================
+
+=================================================================================================================
+ALTERAR ENTRADA E SAIDA DA EXECUCAO DE COMANDOS
+
+>  gera arquivo com o conteudo da saida anterior (sobrescreve o arquivo caso exista)
+cat alunos.txt > alunos-temp.txt    saida do cat vai para novo arquivo alunos-temp.txt
+date > data-temp.txt     saida do comando date foi pra dentro do arquivo data-temp.txt
+
+>  gera arquivo com o conteudo da saida anterior (concatena ao final do arquivo caso exista)
+date >> data-temp.txt
+
+
+2> 
+mensagens de erro deve ser gerada com 2>
+2> é a saída para erros, é diferente da saida normal >
+
+ex.:
+ls -l arquivo_inexistente.abc 2> log.out
+cat log.out            ls: não foi possível acessar 'arquivo_inexistente.abc': Arquivo ou diretório inexistente
+
+ls -l arquivo_inexistente.abc 2>> log.out      para concatenar
+
+
+"executa comando de pode dar erro" > log.out 2> log-erro.out     se nao der erro grava um se der grava outro
+
+
+"executa comando de pode dar erro" >> log.out 2>&1     se nao der erro grava um se der grava no mesmo, saida padrao 1
+
+
+"executa comando de pode dar erro" 2> /dev/null     saida de erro do comando nao vai pra tela nem arquivo, ignorar.
+
+
+pipe
+|
+cat alunos.txt | grep Renan         redireciona a saida do cat para o grep
+
+
+redirecioamento de entrada
+<
+
+é menos comum, mas usa.
+
+ao inves de fazer:
+cat alunos.txt | tr a z
+faz:
+tr a z < alunos.txt
+=================================================================================================================
